@@ -1,0 +1,56 @@
+﻿@model IEnumerable<PHAMDANGXUANDUY_NET1601_ASS01.Domain.Entity.RoomType>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@if (ViewBag.ADMIN != null)
+{
+    <a asp-controller="Home" asp-action="HomePage">Back to List</a>
+
+    <h1>Index</h1>
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.RoomTypeName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TypeDescription)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TypeNote)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomTypeName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TypeDescription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TypeNote)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.RoomTypeId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.RoomTypeId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.RoomTypeId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No customer information available.</p>
+}

@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "HomePage";
+}
+
+<h1>HomePage</h1>
+
+@if (ViewBag.ADMIN != null)
+{
+    <p>ADMIN Information: @ViewBag.ADMIN</p>
+    <form asp-action="Index" asp-controller="Customers" method="get">
+        <button type="submit">Go to Customer</button>
+    </form>
+    <form asp-action="Index" asp-controller="BookingReservations" method="get">
+        <button type="submit">Go to BookingReservations</button>
+    </form>
+    <form asp-action="Index" asp-controller="RoomTypes" method="get">
+        <button type="submit">Go to RoomTypes</button>
+    </form>
+    <form asp-action="Index" asp-controller="RoomInformations" method="get">
+        <button type="submit">Go to RoomInformations</button>
+    </form>
+    <form asp-action="Logout" asp-controller="Home" method="post">
+        <button type="submit">Logout</button>
+    </form>
+
+}
+else if (ViewBag.CustomerInfo != null)
+{
+    <p>Customer Information: @ViewBag.CustomerInfo</p>
+
+    <form asp-action="Details" asp-controller="Customers" method="get">
+        <input type="hidden" name="id" value="@ViewBag.CustomerInfo" />
+        <button type="submit">Go to Profile</button>
+    </form>
+    <form asp-action="Create" asp-controller="BookingReservations" method="post">
+        <button type="submit">Go to Create Booking Reservations</button>
+    </form>
+    <form asp-action="Logout" asp-controller="Home" method="post">
+        <button type="submit">Logout</button>
+    </form>
+}
+else
+{
+    <p>No customer information available.</p>
+}
+

@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@* <div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div> *@
+<br>
+<br>
+<h1 class="text-primary" style="text-align: center">Đăng Nhập</h1>
+<p class="text-danger" style="text-align: center">@ViewBag.Message</p>
+<div class="row" style="justify-content: center; margin-top: 30px">
+    <div class="col-md-4">
+        <form asp-controller="Home" asp-action="Index" method="post" style="border: 1px solid black; border-radius: 10px; padding: 20px">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label for="Email" class="control-label">Tên người dùng</label>
+                <input id="email" name="email" class="form-control" required />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="password" class="control-label">Mật khẩu</label>
+                <input id="password" name="password" class="form-control" type="password" required />
+                <span class="text-danger"></span>
+            </div>
+            <br>
+            <div style="position: relative">
+                <a asp-controller="ForgetPassword" asp-action="Index" style="position: absolute; top: 0; right: 0; margin-right: 0">Quên mật khẩu?</a>
+            </div>
+            <br>
+            <br>
+            <div class="form-group">
+                <input type="submit" value="Đăng nhập" style="width: 100%" class="btn btn-primary" />
+            </div>
+            <br>
+            <div style="text-align: center">Bạn chưa có tài khoản? <a asp-controller="Register" asp-action="RegisterAccount">Tạo tài khoản</a></div>
+        </form>
+    </div>
+    @if (ViewBag.CustomerInfo != null)
+    {
+        <p>Thông tin khách hàng:</p>
+        <p>Email: @ViewBag.CustomerInfo.EmailAddress</p>
+        <p>Tên: @ViewBag.CustomerInfo.Password</p>
+        <!-- Thêm các thông tin khác tùy thuộc vào đối tượng ResponseCustomer của bạn -->
+    }
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

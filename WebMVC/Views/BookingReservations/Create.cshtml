@@ -1,0 +1,286 @@
+﻿@model PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Common.Model.Request.CreateBookingReservation
+
+@{
+    ViewData["Title"] = "Create";
+}
+@if (ViewBag.ADMIN != null)
+{
+    <h1>Create</h1>
+
+
+    <h4>BookingReservation</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="PostBookingReservation" id="bookingForm" onsubmit="submitForm(event)">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="CustomerId" class="control-label"></label>
+                    <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
+                </div>
+
+                <div id="roomFieldsContainer">
+                </div>
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-success" onclick="addRoom()">Add Room</button>
+                    <button type="button" class="btn btn-danger" onclick="removeRoom()">Remove Room</button>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+    @* else
+{
+    <a asp-controller="Home" asp-action="HomePage">Back to List</a>
+
+} *@
+    @section Scripts {
+    @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+        <script>
+            var roomIndex = -1;
+            var roomOptions = @Html.Raw(Json.Serialize(ViewBag.RoomId));
+            function initializeRooms() {
+                addRoom();
+            }
+            document.addEventListener("DOMContentLoaded", function () {
+                initializeRooms();
+
+            });
+
+            function addRoom() {
+                roomIndex++;
+                var roomFieldsContainer = document.getElementById("roomFieldsContainer");
+                var currentDate = new Date().toISOString().split('T')[0];  // Get the current date in "YYYY-MM-DD" format
+
+                var roomHtml = `
+                                                                                                        <div class="roomFields" id="room${roomIndex}">
+                                                                                                            <div class="form-group">
+                                                                                                                <label for="CreateBookingDetailList[${roomIndex}].RoomId" class="control-label">Room</label>
+                                                                                                                <select name="CreateBookingDetailList[${roomIndex}].RoomId" class="form-control">`;
+
+                roomOptions.forEach(option => {
+                    roomHtml += `<option value="${option.value}">${option.text}</option>`;
+                });
+
+                roomHtml += `</select>
+                                                                                                            </div>
+                                                                                                            <div class="form-group">
+                                                                                                                <label for="CreateBookingDetailList[${roomIndex}].StartDate" class="control-label">Start Date</label>
+                                                                                                                                <input type="date" name="CreateBookingDetailList[${roomIndex}].StartDate" class="form-control" value="${currentDate}" min="${currentDate}">
+                                                                                                                <span asp-validation-for="CreateBookingDetailList[${roomIndex}].StartDate" class="text-danger"></span>
+                                                                                                            </div>
+                                                                                                            <div class="form-group">
+                                                                                                                <label for="CreateBookingDetailList[${roomIndex}].EndDate" class="control-label">End Date</label>
+                                                                                                                                <input type="date" name="CreateBookingDetailList[${roomIndex}].EndDate" class="form-control" value="${currentDate}" min="${currentDate}"/>
+                                                                                                                <span asp-validation-for="CreateBookingDetailList[${roomIndex}].EndDate" class="text-danger"></span>
+                                                                                                            </div>
+                                                                                                        </div>`;
+
+                roomFieldsContainer.insertAdjacentHTML("beforeend", roomHtml);
+            }
+
+            function removeRoom() {
+                var roomFieldsContainer = document.getElementById("roomFieldsContainer");
+                var lastRoom = roomFieldsContainer.lastElementChild;
+
+                if (lastRoom && lastRoom.classList.contains("roomFields") && roomIndex > 0) {
+
+                    roomFieldsContainer.removeChild(lastRoom);
+                    roomIndex--;
+                }
+            }
+            function submitForm(event) {
+                event.preventDefault();
+
+                var formData = new FormData(document.getElementById("bookingForm"));
+
+                // Tạo một đối tượng chứa dữ liệu từ form
+                var bookingReservationData = {
+                    CustomerId: formData.get("CustomerId"),
+                    CreateBookingDetailList: []
+                };
+
+                // Lặp qua các mục trong form để lấy thông tin phòng và ngày
+                for (var i = 0; i <= roomIndex; i++) {
+                    var roomData = {
+                        RoomId: formData.get(`CreateBookingDetailList[${i}].RoomId`),
+                        StartDate: formData.get(`CreateBookingDetailList[${i}].StartDate`),
+                        EndDate: formData.get(`CreateBookingDetailList[${i}].EndDate`)
+                    };
+
+                    bookingReservationData.CreateBookingDetailList.push(roomData);
+                }
+
+                $.ajax({
+                    url: "https://localhost:7143/api/BookingReservations/PostBookingReservation",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(bookingReservationData),
+                    success: function (result) {
+                        alert("Success callback executed!");
+                        console.log(result);
+                        console.log(result.redirectUrl);
+                        window.location.href = "/BookingReservations/Index";
+
+                    },
+                    error: function (error) {
+                        alert(error.responseText)
+                        console.error(error);
+                    }
+                });
+            }
+
+        </script>
+    }
+}
+
+
+else if (ViewBag.CustomerInfo != null)
+{
+    <h1>Create</h1>
+    <h4>BookingReservation</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="PostBookingReservation" id="bookingForm" onsubmit="submitForm(event)">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="CustomerId" class="control-label"></label>
+                    <input type="text" class="form-control" value="@ViewBag.CustomerInfo" readonly="true" />
+                    @* <span asp-validation-for="@ViewBag.CustomerInfo"  class=" text-danger"></span> *@
+                    @* <label asp-for="CustomerId" class="control-label"></label>
+                <select asp-for="CustomerId" class="form-control" asp-items="@ViewBag.CustomerInfo"></select> *@
+                </div>
+
+                <div id="roomFieldsContainer">
+                </div>
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-success" onclick="addRoom()">Add Room</button>
+                    <button type="button" class="btn btn-danger" onclick="removeRoom()">Remove Room</button>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <a asp-controller="Home" asp-action="HomePage">Back to List</a>
+
+    @section Scripts {
+    @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+        <script>
+            var roomIndex = -1;
+            var roomOptions = @Html.Raw(Json.Serialize(ViewBag.RoomId));
+            function initializeRooms() {
+                addRoom();
+            }
+            document.addEventListener("DOMContentLoaded", function () {
+                initializeRooms();
+
+            });
+
+            function addRoom() {
+                roomIndex++;
+                var roomFieldsContainer = document.getElementById("roomFieldsContainer");
+                var currentDate = new Date().toISOString().split('T')[0];  // Get the current date in "YYYY-MM-DD" format
+
+                var roomHtml = `
+                                                                                                                    <div class="roomFields" id="room${roomIndex}">
+                                                                                                                        <div class="form-group">
+                                                                                                                            <label for="CreateBookingDetailList[${roomIndex}].RoomId" class="control-label">Room</label>
+                                                                                                                            <select name="CreateBookingDetailList[${roomIndex}].RoomId" class="form-control">`;
+
+                roomOptions.forEach(option => {
+                    roomHtml += `<option value="${option.value}">${option.text}</option>`;
+                });
+
+                roomHtml += `</select>
+                                                                                                                        </div>
+                                                                                                                        <div class="form-group">
+                                                                                                                            <label for="CreateBookingDetailList[${roomIndex}].StartDate" class="control-label">Start Date</label>
+                                                                                                                                            <input type="date" name="CreateBookingDetailList[${roomIndex}].StartDate" class="form-control" value="${currentDate}" min="${currentDate}">
+                                                                                                                            <span asp-validation-for="CreateBookingDetailList[${roomIndex}].StartDate" class="text-danger"></span>
+                                                                                                                        </div>
+                                                                                                                        <div class="form-group">
+                                                                                                                            <label for="CreateBookingDetailList[${roomIndex}].EndDate" class="control-label">End Date</label>
+                                                                                                                                            <input type="date" name="CreateBookingDetailList[${roomIndex}].EndDate" class="form-control" value="${currentDate}" min="${currentDate}"/>
+                                                                                                                            <span asp-validation-for="CreateBookingDetailList[${roomIndex}].EndDate" class="text-danger"></span>
+                                                                                                                        </div>
+                                                                                                                    </div>`;
+
+                roomFieldsContainer.insertAdjacentHTML("beforeend", roomHtml);
+            }
+
+            function removeRoom() {
+                var roomFieldsContainer = document.getElementById("roomFieldsContainer");
+                var lastRoom = roomFieldsContainer.lastElementChild;
+
+                if (lastRoom && lastRoom.classList.contains("roomFields") && roomIndex > 0) {
+
+                    roomFieldsContainer.removeChild(lastRoom);
+                    roomIndex--;
+                }
+            }
+            function submitForm(event) {
+                event.preventDefault();
+
+                var formData = new FormData(document.getElementById("bookingForm"));
+
+                // Tạo một đối tượng chứa dữ liệu từ form
+                var bookingReservationData = {
+                    CustomerId: formData.get("CustomerId"),
+                    CreateBookingDetailList: []
+                };
+
+                // Lặp qua các mục trong form để lấy thông tin phòng và ngày
+                for (var i = 0; i <= roomIndex; i++) {
+                    var roomData = {
+                        RoomId: formData.get(`CreateBookingDetailList[${i}].RoomId`),
+                        StartDate: formData.get(`CreateBookingDetailList[${i}].StartDate`),
+                        EndDate: formData.get(`CreateBookingDetailList[${i}].EndDate`)
+                    };
+
+                    bookingReservationData.CreateBookingDetailList.push(roomData);
+                }
+
+                $.ajax({
+                    url: "https://localhost:7143/api/BookingReservations/PostBookingReservation",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(bookingReservationData),
+                    success: function (result) {
+                        alert("Success callback executed!");
+                        console.log(result);
+                        console.log(result.redirectUrl);
+                        window.location.href = "/Home/HomePage";
+
+                    },
+                    error: function (error) {
+                        alert(error.responseText)
+                        console.error(error);
+                    }
+                });
+            }
+
+        </script>
+    }
+}
+else
+{
+    <p>No customer information available.</p>
+}
