@@ -13,6 +13,8 @@ namespace PHAMDANGXUANDUY_NET1601_ASS01.Application.Repository
     {
         Task<BookingReservation> GetByIdd(int id);
         Task<List<BookingReservation>> GetReservation();
+        Task<List<BookingReservation>> GetByCustomer(int customerId);
+        Task<List<BookingReservation>> GetByCustomerAndDate(int customerId,DateTime dateTime);
         Task<List<BookingReservation>> SearchDate(DateTime startDate);
     }
 }

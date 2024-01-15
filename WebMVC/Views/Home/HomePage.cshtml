@@ -32,8 +32,9 @@ else if (ViewBag.CustomerInfo != null)
         <input type="hidden" name="id" value="@ViewBag.CustomerInfo" />
         <button type="submit">Go to Profile</button>
     </form>
-    <form asp-action="Create" asp-controller="BookingReservations" method="post">
-        <button type="submit">Go to Create Booking Reservations</button>
+    <form asp-action="Index" asp-controller="BookingReservations" method="get">
+        <input type="hidden"  name="customerId" value="@ViewBag.CustomerInfo" />
+        <button type="submit">Go to  Booking Reservations</button>
     </form>
     <form asp-action="Logout" asp-controller="Home" method="post">
         <button type="submit">Logout</button>

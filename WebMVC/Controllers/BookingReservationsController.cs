@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using PHAMDANGXUANDUY_NET1601_ASS01.Domain.Entity;
-using PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Common.Model.Request;
 using PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Common.Model.Response;
 
 namespace WebMVC.Controllers
@@ -26,27 +20,52 @@ namespace WebMVC.Controllers
             client.DefaultRequestHeaders.Accept.Add(contentType);
         }
 
-        public async Task<IActionResult> Index(DateTime? searchDate)
+        public async Task<IActionResult> Index(DateTime? searchDate, int? customerId)
         {
-            await checkRole();
+            var checkrole = await checkRole();
+            string apiUrl = "https://localhost:7143/api/BookingReservations/";
 
-            string apiUrl = "https://localhost:7143/api/BookingReservations/SearchDate";
-
-            if (searchDate.HasValue)
+            if (checkrole == true)
             {
-                apiUrl += $"?date={searchDate}";
+                apiUrl += $"SearchDate";
+
+                if (searchDate.HasValue)
+                {
+                    apiUrl += $"?date={searchDate}";
+                    //await Console.Out.WriteLineAsync(searchDate.Value.ToString());
+                }
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+
+                string strData = await response.Content.ReadAsStringAsync();
+
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                List<ResponseBookingRevervation> listProducts = JsonSerializer.Deserialize<List<ResponseBookingRevervation>>(strData, options);
+                return View(listProducts);
             }
-
-            HttpResponseMessage response = await client.GetAsync(apiUrl);
-
-            string strData = await response.Content.ReadAsStringAsync();
-
-            var options = new JsonSerializerOptions
+            else if (checkrole == false)
             {
-                PropertyNameCaseInsensitive = true
-            };
-            List<ResponseBookingRevervation> listProducts = JsonSerializer.Deserialize<List<ResponseBookingRevervation>>(strData, options);
-            return View(listProducts);
+                apiUrl += $"GetBookingReservationByCustomerAndDate?id={customerId}";
+                if (searchDate.HasValue)
+                {
+                    apiUrl += $"&?date={searchDate}";
+                }
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+
+                string strData = await response.Content.ReadAsStringAsync();
+
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                List<ResponseBookingRevervation> listProducts = JsonSerializer.Deserialize<List<ResponseBookingRevervation>>(strData, options);
+                return View(listProducts);
+            }
+            return View();
         }
 
         public async Task<IActionResult> Details(int id)
@@ -83,10 +102,17 @@ namespace WebMVC.Controllers
         }
         public async Task<IActionResult> CreateAsync()
         {
-            await LoadCustomersAndRooms();
-            await checkRole();
+            try
+            {
+                await LoadCustomersAndRooms();
+                //await checkRole();
 
-            return View();
+                return View();
+            }
+            catch (Exception ex)
+            {
+                return View(ex.Message);
+            }
         }
 
         //[HttpPost]
@@ -128,6 +154,7 @@ namespace WebMVC.Controllers
 
         private async Task LoadCustomersAndRooms()
         {
+
             await checkRole();
             HttpResponseMessage customerResponse = await client.GetAsync("https://localhost:7143/api/Customers/GetCustomers");
             string customerData = await customerResponse.Content.ReadAsStringAsync();
@@ -154,30 +181,27 @@ namespace WebMVC.Controllers
             }), "Value", "Text");
         }
 
-        private async Task<IActionResult> checkRole()
+
+
+        private async Task<bool> checkRole()
         {
-            try
+
+            var admin = HttpContext.Session.GetString("ADMIN");
+            if (admin != null)
             {
-                var admin = HttpContext.Session.GetString("ADMIN");
-                if (admin != null)
-                {
-                    ViewBag.ADMIN = admin;
-                    return View();
-                }
-                var customerInfo = HttpContext.Session.GetString("CUSTOMER");
-                var customer = JsonSerializer.Deserialize<ResponseCustomer>(customerInfo);
-                if (customer != null)
-                {
-                    ViewBag.CustomerInfo = customer.CustomerId;
-                    return View();
-                }
-                return View();
+                ViewBag.ADMIN = admin;
+                return true;
             }
-            catch (Exception ex)
+            var customerInfo = HttpContext.Session.GetString("CUSTOMER");
+            var customer = JsonSerializer.Deserialize<ResponseCustomer>(customerInfo);
+            if (customer != null)
             {
-                return View("Error", ex.Message);
+                ViewBag.CustomerInfo = customer.CustomerId;
+                return false;
             }
+            return false;
         }
+
 
         // GET: BookingReservations/Edit/5
         public async Task<IActionResult> Edit(int id)
@@ -210,42 +234,49 @@ namespace WebMVC.Controllers
                 return View("Error", ex.Message);
             }
         }
+        //api/BookingReservations/Payment?id=11&status=1
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, ResponseBookingRevervation reservation)
+        {
+            try
+            {
+                await checkRole();
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("BookingReservationId,BookingDate,TotalPrice,CustomerId,BookingStatus")] BookingReservation bookingReservation)
-        //{
-        //    if (id != bookingReservation.BookingReservationId)
-        //    {
-        //        return NotFound();
-        //    }
+                if (!ModelState.IsValid)
+                {
+                    return View(reservation);
+                }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(bookingReservation);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!BookingReservationExists(bookingReservation.BookingReservationId))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "EmailAddress", bookingReservation.CustomerId);
-        //    return View(bookingReservation);
-        //}
+                string strData = JsonSerializer.Serialize(reservation);
+                var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
 
-        //// GET: BookingReservations/Delete/5
+                HttpResponseMessage response = await client.PutAsync($"https://localhost:7143/api/BookingReservations/Payment?id={id}&status={1}", contentData);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    string errorMessage = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"API Error: {errorMessage}");
+                    ModelState.AddModelError(string.Empty, errorMessage);
+                    return View(reservation);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                ModelState.AddModelError(string.Empty, ex.Message);
+                return View(reservation);
+            }
+
+        }
+
+        // GET: BookingReservations/Delete/5
         //public async Task<IActionResult> Delete(int? id)
         //{
         //    if (id == null || _context.BookingReservations == null)

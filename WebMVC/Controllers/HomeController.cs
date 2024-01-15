@@ -1,11 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.RulesetToEditorconfig;
-using Microsoft.Extensions.Options;
-using PHAMDANGXUANDUY_NET1601_ASS01.Domain.Entity;
-using PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Common.Model.Request;
+﻿using Microsoft.AspNetCore.Mvc;
 using PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Common.Model.Response;
-using System;
 using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Text.Json;

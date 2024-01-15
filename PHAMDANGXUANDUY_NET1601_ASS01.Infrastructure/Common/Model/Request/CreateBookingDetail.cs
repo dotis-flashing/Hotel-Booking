@@ -1,6 +1,4 @@
-﻿
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Common.Model.Request
 {

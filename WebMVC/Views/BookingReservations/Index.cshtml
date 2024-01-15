@@ -66,6 +66,71 @@
         </tbody>
     </table>
 }
+else if (ViewBag.CustomerInfo != null)
+{
+    <a asp-controller="Home" asp-action="HomePage">Back to List</a>
+
+    <h1>Index</h1>
+    <form asp-controller="BookingReservations" asp-action="Index" method="get">
+        <label for="searchDate">Search Date:</label>
+        <input type="date" id="searchDate" name="searchDate">
+        <input type="hidden" id="customerId" name="customerId" value="@ViewBag.CustomerInfo">
+
+        <button type="submit">Search</button>
+    </form>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.BookingReservationId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BookingDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BookingStatus)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CustomerId)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BookingReservationId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BookingDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BookingStatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CustomerId)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.BookingReservationId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.BookingReservationId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.BookingReservationId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 else
 {
     <p>No customer information available.</p>

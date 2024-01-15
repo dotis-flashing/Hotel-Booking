@@ -258,6 +258,8 @@ C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\bin\Debug\n
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\bin\Debug\net6.0\Application.dll
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\bin\Debug\net6.0\Domain.dll
+C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\bin\Debug\net6.0\Infrastructure.dll
+C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\bin\Debug\net6.0\Infrastructure.pdb
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\bin\Debug\net6.0\Application.pdb
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\bin\Debug\net6.0\Domain.pdb
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\obj\Debug\net6.0\WebApi.csproj.AssemblyReference.cache
@@ -267,6 +269,7 @@ C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\obj\Debug\n
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\obj\Debug\net6.0\WebApi.csproj.CoreCompileInputs.cache
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\obj\Debug\net6.0\WebApi.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\obj\Debug\net6.0\WebApi.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\obj\Debug\net6.0\WebApi.sourcelink.json
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\obj\Debug\net6.0\staticwebassets.build.json
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\obj\Debug\net6.0\staticwebassets.development.json
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\obj\Debug\net6.0\staticwebassets\msbuild.WebApi.Microsoft.AspNetCore.StaticWebAssets.props
@@ -281,5 +284,3 @@ C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\obj\Debug\n
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\obj\Debug\net6.0\WebApi.pdb
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\obj\Debug\net6.0\WebApi.genruntimeconfig.cache
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\obj\Debug\net6.0\ref\WebApi.dll
-C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\bin\Debug\net6.0\Infrastructure.dll
-C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebApi\bin\Debug\net6.0\Infrastructure.pdb

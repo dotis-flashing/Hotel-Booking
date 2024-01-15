@@ -62,6 +62,20 @@ namespace PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Service.Imp
             return _mapper.Map<List<ResponseBookingRevervation>>(await _unitOfwork.BookingReservationRepository.GetReservation());
         }
 
+        public async Task<List<ResponseBookingRevervation>> GetByCustomer(int customerId, DateTime dateTime)
+        {
+
+            if (dateTime == DateTime.MinValue)
+            {
+                var allBookings = await _unitOfwork.BookingReservationRepository.GetByCustomer(customerId);
+
+                return _mapper.Map<List<ResponseBookingRevervation>>(allBookings);
+            }
+
+            var dateFilteredBookings = await _unitOfwork.BookingReservationRepository.GetByCustomerAndDate(customerId, dateTime);
+            return _mapper.Map<List<ResponseBookingRevervation>>(dateFilteredBookings);
+        }
+
         public async Task<ResponseBookingRevervation> GetById(int id)
         {
 
@@ -86,7 +100,7 @@ namespace PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Service.Imp
 
         public async Task<ResponseBookingRevervation> UpdateCalculate(int id, byte status)
         {
-            var booking = await _unitOfwork.BookingReservationRepository.GetById(id);
+            var booking = await _unitOfwork.BookingReservationRepository.GetByIdd(id);
             if (booking.BookingStatus == status)
             {
                 throw new Exception($"Already exist {status}");

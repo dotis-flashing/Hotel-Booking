@@ -262,10 +262,12 @@ C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\bin\Debug\n
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\bin\Debug\net6.0\Application.dll
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\bin\Debug\net6.0\Domain.dll
+C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\bin\Debug\net6.0\Infrastructure.dll
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\bin\Debug\net6.0\WebApi.dll
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\bin\Debug\net6.0\WebApi.pdb
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\bin\Debug\net6.0\Application.pdb
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\bin\Debug\net6.0\Domain.pdb
+C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\bin\Debug\net6.0\Infrastructure.pdb
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\obj\Debug\net6.0\WebMVC.csproj.AssemblyReference.cache
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\obj\Debug\net6.0\WebMVC.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\obj\Debug\net6.0\WebMVC.AssemblyInfoInputs.cache
@@ -275,6 +277,7 @@ C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\obj\Debug\n
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\obj\Debug\net6.0\WebMVC.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\obj\Debug\net6.0\WebMVC.RazorAssemblyInfo.cache
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\obj\Debug\net6.0\WebMVC.RazorAssemblyInfo.cs
+C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\obj\Debug\net6.0\WebMVC.sourcelink.json
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\obj\Debug\net6.0\staticwebassets.build.json
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\obj\Debug\net6.0\staticwebassets.development.json
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\obj\Debug\net6.0\staticwebassets\msbuild.WebMVC.Microsoft.AspNetCore.StaticWebAssets.props
@@ -291,5 +294,3 @@ C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\obj\Debug\n
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\obj\Debug\net6.0\WebMVC.pdb
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\obj\Debug\net6.0\WebMVC.genruntimeconfig.cache
 C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\obj\Debug\net6.0\ref\WebMVC.dll
-C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\bin\Debug\net6.0\Infrastructure.dll
-C:\Users\xuand\Documents\Mon\C#\PHAMDANGXUANDUY_NET1601_ASS01\WebMVC\bin\Debug\net6.0\Infrastructure.pdb

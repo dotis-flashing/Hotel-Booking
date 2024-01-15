@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PHAMDANGXUANDUY_NET1601_ASS01.Domain.Entity;
 using PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Common.Model.Request;
 using PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Common.Model.Response;
 using PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Service;
-using PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Service.Imp;
 using System.ComponentModel.DataAnnotations;
-using System.Net.NetworkInformation;
 
 namespace WebApi.Controllers
 {
@@ -29,7 +26,13 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetBookingReservation(int id)
         {
-           return Ok(await _reservationService.GetById(id));
+            return Ok(await _reservationService.GetById(id));
+
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetBookingReservationByCustomerAndDate(int id, [DataType(DataType.Date)] DateTime date)
+        {
+            return Ok(await _reservationService.GetByCustomer(id, date));
 
         }
         [HttpGet]

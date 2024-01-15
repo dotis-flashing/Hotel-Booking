@@ -11,6 +11,30 @@ namespace PHAMDANGXUANDUY_NET1601_ASS01.Application.Repository.Imp
         {
         }
 
+        public async Task<List<BookingReservation>> GetByCustomer(int customerId)
+        {
+            var check =
+                            await _context.Set<BookingReservation>()
+                            .Include(c => c.BookingDetails)
+                            .Where(c => c.CustomerId == customerId).ToListAsync();
+
+            if (check == null)
+            {
+                throw new Exception("khong tim thay");
+            }
+            return check;
+        }
+
+        public async Task<List<BookingReservation>> GetByCustomerAndDate(int customerId, DateTime dateTime)
+        {
+            var date = await _context.Set<BookingReservation>()
+                        .Include(c => c.BookingDetails)
+                        .Where(c => c.BookingDate.Equals(dateTime) && c.CustomerId == customerId)
+                        .OrderByDescending(c => c.BookingDate)
+                        .ToListAsync();
+            return date;
+        }
+
         public async Task<BookingReservation> GetByIdd(int id)
         {
             var check =
@@ -44,12 +68,12 @@ namespace PHAMDANGXUANDUY_NET1601_ASS01.Application.Repository.Imp
             //}
             //else
             //{
-                var date = await _context.Set<BookingReservation>()
-                .Include(c => c.BookingDetails)
-                .Where(c => c.BookingDate.Equals(startDate))
-                .OrderByDescending(c=>c.BookingDate)
-                .ToListAsync();
-                return date;
+            var date = await _context.Set<BookingReservation>()
+            .Include(c => c.BookingDetails)
+            .Where(c => c.BookingDate.Equals(startDate))
+            .OrderByDescending(c => c.BookingDate)
+            .ToListAsync();
+            return date;
             //}
         }
     }
