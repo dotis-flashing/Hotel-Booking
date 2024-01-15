@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Infrastructure.Common.Model.Request;
+using Microsoft.AspNetCore.Mvc;
+using PHAMDANGXUANDUY_NET1601_ASS01.Domain.Entity;
 using PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Common.Model.Request;
 using PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Common.Model.Response;
 using PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Service;
@@ -49,11 +51,18 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<ActionResult<ResponseBookingRevervation>> Payment(int id, byte status)
+        [HttpPatch]
+        public async Task<ActionResult<ResponseBookingRevervation>> Payment(int id, UpdateBookingRevervation responseBookingRevervation)
         {
-            return Ok(await _reservationService.UpdateCalculate(id, status));
+            try
+            {
+                return Ok(await _reservationService.UpdateCalculate(id, responseBookingRevervation));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Internal Server Error: {ex.Message}");
 
+            }
         }
 
         [HttpPost]
@@ -70,24 +79,19 @@ namespace WebApi.Controllers
             }
         }
 
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteBookingReservation(int id)
-        //{
-        //    if (_context.BookingReservations == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var bookingReservation = await _context.BookingReservations.FindAsync(id);
-        //    if (bookingReservation == null)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpDelete]
+        public async Task<IActionResult> DeleteBookingReservation(int id)
+        {
+            try
+            {
+                return Ok(await _reservationService.Delete(id));
 
-        //    _context.BookingReservations.Remove(bookingReservation);
-        //    await _context.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Internal Server Error: {ex.Message}");
+            }
+        }
 
 
     }

@@ -122,9 +122,9 @@ else if (ViewBag.CustomerInfo != null)
                         @Html.DisplayFor(modelItem => item.CustomerId)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.BookingReservationId">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.BookingReservationId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.BookingReservationId">Delete</a>
+                        @* <a asp-action="Edit" asp-route-id="@item.BookingReservationId">Edit</a> | *@
+                        <a asp-action="Details" asp-route-id="@item.BookingReservationId">Details</a> 
+                        @* <a asp-action="Delete" asp-route-id="@item.BookingReservationId">Delete</a> *@
                     </td>
                 </tr>
             }

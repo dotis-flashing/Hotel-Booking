@@ -1,4 +1,4 @@
-﻿@model PHAMDANGXUANDUY_NET1601_ASS01.Domain.Entity.BookingReservation
+﻿@model PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Common.Model.Response.ResponseBookingRevervation
 
 @{
     ViewData["Title"] = "Delete";
@@ -31,10 +31,10 @@
             @Html.DisplayFor(model => model.BookingStatus)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Customer)
+            @Html.DisplayNameFor(model => model.CustomerId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Customer.EmailAddress)
+            @Html.DisplayFor(model => model.CustomerId)
         </dd>
     </dl>
     

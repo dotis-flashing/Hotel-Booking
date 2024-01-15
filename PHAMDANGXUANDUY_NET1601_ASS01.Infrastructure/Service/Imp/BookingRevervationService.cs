@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Infrastructure.Common.Model.Request;
 using PHAMDANGXUANDUY_NET1601_ASS01.Domain.Entity;
 using PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Common.Model.Request;
 using PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Common.Model.Response;
@@ -56,6 +57,14 @@ namespace PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Service.Imp
             return _mapper.Map<ResponseBookingRevervation>(booking);
         }
 
+        public async Task<ResponseBookingRevervation> Delete(int id)
+        {
+            var booking = await _unitOfwork.BookingReservationRepository.GetByIdd(id);
+            booking.BookingStatus = 0;
+            await _unitOfwork.BookingReservationRepository.Update(booking);
+            await _unitOfwork.Commit();
+            return _mapper.Map<ResponseBookingRevervation>(booking);
+        }
 
         public async Task<List<ResponseBookingRevervation>> GetAll()
         {
@@ -98,18 +107,19 @@ namespace PHAMDANGXUANDUY_NET1601_ASS01.Infrastructure.Service.Imp
 
         }
 
-        public async Task<ResponseBookingRevervation> UpdateCalculate(int id, byte status)
+        public async Task<ResponseBookingRevervation> UpdateCalculate(int id, UpdateBookingRevervation bookingReservation)
         {
             var booking = await _unitOfwork.BookingReservationRepository.GetByIdd(id);
-            if (booking.BookingStatus == status)
+            bookingReservation.status = 1;
+            if (booking.BookingStatus == bookingReservation.status)
             {
-                throw new Exception($"Already exist {status}");
+                throw new Exception($"Already exist {bookingReservation.status}");
             }
             if (booking.BookingStatus == 1)
             {
                 throw new Exception("Paid");
             }
-            booking.BookingStatus = status;
+            booking.BookingStatus = bookingReservation.status;
             await _unitOfwork.BookingReservationRepository.Update(booking);
             await _unitOfwork.Commit();
             return _mapper.Map<ResponseBookingRevervation>(booking);

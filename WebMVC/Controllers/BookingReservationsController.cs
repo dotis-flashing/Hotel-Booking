@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Text.Json;
+using Infrastructure.Common.Model.Request;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PHAMDANGXUANDUY_NET1601_ASS01.Domain.Entity;
@@ -203,11 +204,12 @@ namespace WebMVC.Controllers
         }
 
 
-        // GET: BookingReservations/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
             try
             {
+                await checkRole();
+
                 HttpResponseMessage response = await client.GetAsync($"https://localhost:7143/api/BookingReservations/GetBookingReservation?id={id}");
 
                 if (response.IsSuccessStatusCode)
@@ -238,21 +240,31 @@ namespace WebMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, ResponseBookingRevervation reservation)
+        public async Task<IActionResult> Edit(int id, UpdateBookingRevervation responseBookingRevervation)
         {
+            HttpResponseMessage responses = await client.GetAsync($"https://localhost:7143/api/BookingReservations/GetBookingReservation?id={id}");
+
+            string strDatas = await responses.Content.ReadAsStringAsync();
+
+            var optionss = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            var room = JsonSerializer.Deserialize<ResponseBookingRevervation>(strDatas, optionss);
+
             try
             {
-                await checkRole();
-
+                var check = await checkRole();
                 if (!ModelState.IsValid)
                 {
-                    return View(reservation);
+                    return View(responseBookingRevervation);
                 }
 
-                string strData = JsonSerializer.Serialize(reservation);
+                string strData = JsonSerializer.Serialize(responseBookingRevervation);
                 var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PutAsync($"https://localhost:7143/api/BookingReservations/Payment?id={id}&status={1}", contentData);
+                HttpResponseMessage response = await client.PatchAsync($"https://localhost:7143/api/BookingReservations/Payment?id={id}", contentData);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -261,62 +273,55 @@ namespace WebMVC.Controllers
                 else
                 {
                     string errorMessage = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine($"API Error: {errorMessage}");
                     ModelState.AddModelError(string.Empty, errorMessage);
-                    return View(reservation);
+                    return View(room);
                 }
-
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception: {ex.Message}");
                 ModelState.AddModelError(string.Empty, ex.Message);
-                return View(reservation);
+                return View(room);
+            }
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            HttpResponseMessage responses = await client.GetAsync($"https://localhost:7143/api/BookingReservations/GetBookingReservation?id={id}");
+
+            string strDatas = await responses.Content.ReadAsStringAsync();
+
+            var optionss = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            var room = JsonSerializer.Deserialize<ResponseBookingRevervation>(strDatas, optionss);
+
+            return View(room);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+
+            HttpResponseMessage responses = await client.DeleteAsync($"https://localhost:7143/api/BookingReservations/DeleteBookingReservation?id={id}");
+            {
+                string strDatas = await responses.Content.ReadAsStringAsync();
+
+                var optionss = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                var room = JsonSerializer.Deserialize<ResponseBookingRevervation>(strDatas, optionss);
+                if (responses.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+                return View(room);
             }
 
         }
-
-        // GET: BookingReservations/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null || _context.BookingReservations == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var bookingReservation = await _context.BookingReservations
-        //        .Include(b => b.Customer)
-        //        .FirstOrDefaultAsync(m => m.BookingReservationId == id);
-        //    if (bookingReservation == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(bookingReservation);
-        //}
-
-        //// POST: BookingReservations/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    if (_context.BookingReservations == null)
-        //    {
-        //        return Problem("Entity set 'FUMiniHotelManagementContext.BookingReservations'  is null.");
-        //    }
-        //    var bookingReservation = await _context.BookingReservations.FindAsync(id);
-        //    if (bookingReservation != null)
-        //    {
-        //        _context.BookingReservations.Remove(bookingReservation);
-        //    }
-
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-        //private bool BookingReservationExists(int id)
-        //{
-        //    return (_context.BookingReservations?.Any(e => e.BookingReservationId == id)).GetValueOrDefault();
-        //}
     }
 }
